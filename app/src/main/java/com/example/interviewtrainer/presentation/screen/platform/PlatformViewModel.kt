@@ -1,6 +1,7 @@
 package com.example.interviewtrainer.presentation.screen.platform
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.interviewtrainer.data.repository.PlatformRepository
 import com.example.interviewtrainer.domain.model.Platform
@@ -47,3 +48,13 @@ data class PlatformState(
     val error: String? = null
 )
 
+class PlatformViewModelFactory(
+    private val repository: PlatformRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(PlatformViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return PlatformViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
